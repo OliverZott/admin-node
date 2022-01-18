@@ -15,3 +15,5 @@
 ### Install further libs
 - `npm i express cors`
 - Install respective **types** `npm i -D @types/express @types/cors`
+- ORM: https://github.com/typeorm/typeorm
+- 
