@@ -16,4 +16,12 @@
 - `npm i express cors`
 - Install respective **types** `npm i -D @types/express @types/cors`
 - ORM: https://github.com/typeorm/typeorm
-- 
+- bcypt:
+  - `npm i bcryptjs` 
+  - `npm i -D @types/bcrypt`
+
+
+
+## TypeORM
+- **Repository** 
+  - https://www.tutorialspoint.com/typeorm/typeorm_working_with_repository.htm
