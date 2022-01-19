@@ -23,12 +23,12 @@ export const register = async (req: Request, res: Response) => {
     const repository = getManager().getRepository(User);
 
     // create user
-    const user = await repository.save({
+    const {password, ...user} = await repository.save({
         first_name: body.first_name,
         last_name: body.last_name,
         email: body.email,
-        password: await bcryptjs.hash(body.password, 19),
+        password: await bcryptjs.hash(body.password, 10),
     })
 
-    res.send(body);     // response is the request body
+    res.send(user);     // response is the request body
 }

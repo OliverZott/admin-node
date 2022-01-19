@@ -6,7 +6,7 @@
   "password": "password",
   "database": "node_admin",
   "entities": [
-    "sry/entity/*.ts"
+    "src/entity/*.ts"
   ],
   "logging": false,
   "synchronize": true
