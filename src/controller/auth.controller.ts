@@ -3,9 +3,11 @@ import {LoginValidation, RegisterValidation} from "../validation/register.valida
 import {getManager} from "typeorm";
 import {User} from "../entity/user.entity";
 import bcryptjs from "bcryptjs";
+import {sign} from "jsonwebtoken";
 
 
 export const Register = async (req: Request, res: Response) => {
+    // TODO - Refactor
 
     const body = req.body;
     const {error} = RegisterValidation.validate(body);  // deconstruct validation result
@@ -34,30 +36,56 @@ export const Register = async (req: Request, res: Response) => {
 }
 
 export const Login = async (req: Request, res: Response) => {
+    // TODO
+    //  - Refactor and create private sub-functions
+    //  -
 
     const repository = getManager().getRepository(User);
     const {error} = LoginValidation.validate(req.body);
+
     if (error) {
         return res.status(400).send(error.details);
     }
 
     const user = await repository.findOne({email: req.body.email});
 
+
+    // -----------------------------------------------------------------
+    // check user and password
     if (!user) {
         return res.status(404).send({
-            message: "User not found."
+            message: "User not found."      // better also user "Invalid credentials."!
         });
     }
-
-    // Compare hashed passwords
     if (!await bcryptjs.compare(req.body.password, user.password)) {
         return res.status(400).send({
             message: "Invalid credentials."
         });
     }
 
-    res.send({
-        email: user.email,
-        full_name: user.first_name + ' ' + user.last_name
+
+    // -----------------------------------------------------------------
+    // Generate & send JWT
+    const token = sign(
+        {id: user.id},
+        'secret'
+    )
+
+    res.cookie('jwt', token, {
+        httpOnly: true,     // only backend can use this cookie
+        maxAge: 24 * 60 * 60 * 1000,
     });
+
+    // -----------------------------------------------------------------
+    // Response
+    res.send({
+        message: 'success',
+    });
+}
+
+
+export const AuthenticatedUser = async (req: Request, res: Response) => {
+    const jwt = req.cookies['jwt'];
+
+    res.send(jwt);
 }

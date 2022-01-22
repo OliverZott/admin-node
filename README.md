@@ -1,5 +1,6 @@
 # Run
 - `npm install`
+- start mysql server
 - `npm start`  ... to start nodemon
 - http://localhost:8000/
 
@@ -12,16 +13,38 @@
 ### Configure nodemon
 - create `nodemon.json` and add stuff
 
-### Install further libs
+
+
+
+-------------------------------------------------------------------
+# Packages
+## Express
+- REST API framework
 - `npm i express cors`
 - Install respective **types** `npm i -D @types/express @types/cors`
-- ORM: https://github.com/typeorm/typeorm
-- bcypt:
-  - `npm i bcryptjs` 
-  - `npm i -D @types/bcrypt`
 
-
+## Bcryptjs
+- Encryption package
+- `npm i bcryptjs`
+- `npm i -D @types/bcrypt`
 
 ## TypeORM
-- **Repository** 
-  - https://www.tutorialspoint.com/typeorm/typeorm_working_with_repository.htm
+- **Repository** and ORM package
+    - https://www.tutorialspoint.com/typeorm/typeorm_working_with_repository.htm
+
+## Express-Validation
+- validation library
+
+## JWT
+- json web token packate
+- `npm i jsonwebtoken`
+- `npm i -D @types/jsonwebtoken`
+- Steps:
+  - define *payload* & create *token* respectively
+  - store token in http-only-cookie
+- `npm i cookie-parser` ... to receive cookie from api-response
+- `npm i -D @types/cookie-parser`
+- 
+## Logging
+- https://github.com/winstonjs/winston
+- 
