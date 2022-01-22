@@ -11,6 +11,7 @@ createConnection().then(connection => {
 
     app.use(express.json());    // to handle request as JSON
     app.use(cors({      // app runs on port 8000 but all frontend run on different ports!
+        credentials: true,      // so frontend gets cookies
         origin: ["http://localhost:3000"]
     }));
 
