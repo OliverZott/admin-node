@@ -1,16 +1,16 @@
-import {Request, Response} from 'express';
-import {LoginValidation, RegisterValidation} from "../validation/register.validation";
-import {getManager} from "typeorm";
-import {User} from "../entity/user.entity";
+import { Request, Response } from 'express';
+import { LoginValidation, RegisterValidation } from "../validation/register.validation";
+import { getManager } from "typeorm";
+import { User } from "../entity/user.entity";
 import bcryptjs from "bcryptjs";
-import {sign} from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 
 
 export const Register = async (req: Request, res: Response) => {
     // TODO - Refactor
 
     const body = req.body;
-    const {error} = RegisterValidation.validate(body);  // deconstruct validation result
+    const { error } = RegisterValidation.validate(body);  // deconstruct validation result
 
     if (error) {
         return res.status(400).send(error.details);
@@ -25,7 +25,7 @@ export const Register = async (req: Request, res: Response) => {
     const repository = getManager().getRepository(User);
 
     // create user
-    const {password, ...user} = await repository.save({
+    const { password, ...user } = await repository.save({
         first_name: body.first_name,
         last_name: body.last_name,
         email: body.email,
@@ -35,19 +35,20 @@ export const Register = async (req: Request, res: Response) => {
     res.send(user);     // response is the request body
 }
 
+
 export const Login = async (req: Request, res: Response) => {
     // TODO
     //  - Refactor and create private sub-functions
     //  -
 
     const repository = getManager().getRepository(User);
-    const {error} = LoginValidation.validate(req.body);
+    const { error } = LoginValidation.validate(req.body);
 
     if (error) {
         return res.status(400).send(error.details);
     }
 
-    const user = await repository.findOne({email: req.body.email});
+    const user = await repository.findOne({ email: req.body.email });
 
 
     // -----------------------------------------------------------------
@@ -67,7 +68,7 @@ export const Login = async (req: Request, res: Response) => {
     // -----------------------------------------------------------------
     // Generate & send JWT
     const token = sign(
-        {id: user.id},
+        { id: user.id },
         'secret'
     )
 
@@ -86,6 +87,37 @@ export const Login = async (req: Request, res: Response) => {
 
 export const AuthenticatedUser = async (req: Request, res: Response) => {
     const jwt = req.cookies['jwt'];
+    let payload: any = null;
 
-    res.send(jwt);
+    // catch error to prevent npm server from stopping
+    try {
+        payload = verify(jwt, 'secret');
+    }
+    catch (e) {
+        console.log(e);
+    }
+
+    if (!payload) {
+        return res.status(401).send({
+            message: 'Not authenticated!'
+        })
+    }
+
+    const repository = getManager().getRepository(User);
+    const user = await repository.findOne(payload.id);
+
+    res.send({
+        name: user?.first_name + ' ' + user?.last_name,
+        email: user?.email,
+    });
+}
+
+
+export const Logout = async (req: Request, res: Response) => {
+
+    // remove cookie by setting it to be passed
+    res.cookie('jwt', '', { maxAge: 0 })
+
+    res.send({ message: "SUccessfully signed out" })
+
 }

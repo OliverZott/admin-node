@@ -2,6 +2,7 @@ import express, {Request, Response} from "express";
 import cors from "cors";
 import {routes} from "./routes";
 import {createConnection} from "typeorm";
+import cookieParser from "cookie-parser";
 
 
 // will read config from "ormconfig.json" automatically!!!
@@ -10,6 +11,7 @@ createConnection().then(connection => {
     const app = express();
 
     app.use(express.json());    // to handle request as JSON
+    app.use(cookieParser());    // to be able to retrieve cookies from api
     app.use(cors({      // app runs on port 8000 but all frontend run on different ports!
         credentials: true,      // so frontend gets cookies
         origin: ["http://localhost:3000"]
