@@ -1,7 +1,9 @@
-import express, {Request, Response} from "express";
+require('dotenv').config();
+
+import express, { Request, Response } from "express";
 import cors from "cors";
-import {routes} from "./routes";
-import {createConnection} from "typeorm";
+import { routes } from "./routes";
+import { createConnection } from "typeorm";
 import cookieParser from "cookie-parser";
 
 

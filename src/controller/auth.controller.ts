@@ -10,7 +10,7 @@ export const Register = async (req: Request, res: Response) => {
     // TODO - Refactor
 
     const body = req.body;
-    const { error } = RegisterValidation.validate(body);  // deconstruct validation result
+    const { error } = RegisterValidation.validate(body);
 
     if (error) {
         return res.status(400).send(error.details);
@@ -32,14 +32,13 @@ export const Register = async (req: Request, res: Response) => {
         password: await bcryptjs.hash(body.password, 10),
     });
 
-    res.send(user);     // response is the request body
+    res.send(user);
 }
 
 
 export const Login = async (req: Request, res: Response) => {
-    // TODO
+    // TODO - Refactor
     //  - Refactor and create private sub-functions
-    //  -
 
     const repository = getManager().getRepository(User);
     const { error } = LoginValidation.validate(req.body);
@@ -67,10 +66,7 @@ export const Login = async (req: Request, res: Response) => {
 
     // -----------------------------------------------------------------
     // Generate & send JWT
-    const token = sign(
-        { id: user.id },
-        'secret'
-    )
+    const token = sign({ id: user.id }, process.env.SECRET_KEY as string)
 
     res.cookie('jwt', token, {
         httpOnly: true,     // only backend can use this cookie
@@ -91,7 +87,7 @@ export const AuthenticatedUser = async (req: Request, res: Response) => {
 
     // catch error to prevent npm server from stopping
     try {
-        payload = verify(jwt, 'secret');
+        payload = verify(jwt, process.env.SECRET_KEY as string);
     }
     catch (e) {
         console.log(e);

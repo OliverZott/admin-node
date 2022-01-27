@@ -59,6 +59,11 @@
 -   `npm i -D @types/cookie-parser`
 -
 
+#### environment variables
+
+-   `npm i dotenv`
+-   https://www.npmjs.com/package/dotenv
+
 ## Logging
 
 -   https://github.com/winstonjs/winston
