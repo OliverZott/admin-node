@@ -4,6 +4,7 @@ import { getManager } from "typeorm";
 import { User } from "../entity/user.entity";
 import bcryptjs from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
+import { AuthMiddleware } from '../middleware/auth.middleware';
 
 
 export const Register = async (req: Request, res: Response) => {
@@ -82,29 +83,11 @@ export const Login = async (req: Request, res: Response) => {
 
 
 export const AuthenticatedUser = async (req: Request, res: Response) => {
-    const jwt = req.cookies['jwt'];
-    let payload: any = null;
 
-    // catch error to prevent npm server from stopping
-    try {
-        payload = verify(jwt, process.env.SECRET_KEY as string);
-    }
-    catch (e) {
-        console.log(e);
-    }
-
-    if (!payload) {
-        return res.status(401).send({
-            message: 'Not authenticated!'
-        })
-    }
-
-    const repository = getManager().getRepository(User);
-    const user = await repository.findOne(payload.id);
-
+    const user = req.body.user;
     res.send({
-        name: user?.first_name + ' ' + user?.last_name,
-        email: user?.email,
+        user: user.first_name + ' ' + user.last_name,
+        email: user.email,
     });
 }
 
