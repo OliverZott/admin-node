@@ -5,6 +5,11 @@
 -   `npm start` ... to start nodemon
 -   http://localhost:8000/
 
+### In case of errors:
+- `npm install -g nodemon`
+- `npm install -g ts-node`
+- `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`ke
+
 # Debug
 
 -   npm start first
@@ -39,12 +44,18 @@
 -   `npm i -D @types/bcrypt`
 
 ## TypeORM
+- https://typeorm.io/#/
 
 -   **Repository** and ORM package
     -   https://www.tutorialspoint.com/typeorm/typeorm_working_with_repository.htm
 
-## Express-Validation
 
+## SQLite Database
+- https://www.sqlitetutorial.net/sqlite-nodejs/connect/
+- - `npm install sqlite3 --save`
+
+
+## Express-Validation
 -   validation library
 
 ## JWT
