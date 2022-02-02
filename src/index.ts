@@ -1,10 +1,14 @@
 require('dotenv').config();
-
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { routes } from "./routes";
 import { createConnection } from "typeorm";
 import cookieParser from "cookie-parser";
+import DatabaseVsalidation from "./utils/db.validation"
+
+let databaseValidation = new DatabaseVsalidation();
+databaseValidation.validateFileDatabase();
+databaseValidation.validateMemoryDatabase();
 
 
 // will read config from "ormconfig.json" automatically!!!
