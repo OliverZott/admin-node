@@ -60,7 +60,7 @@
 
 ## JWT
 
--   json web token packate
+-   json web token packages
 -   `npm i jsonwebtoken`
 -   `npm i -D @types/jsonwebtoken`
 -   Steps:
@@ -74,6 +74,8 @@
 
 -   `npm i dotenv`
 -   https://www.npmjs.com/package/dotenv
+-   DONT KEEP .env file in repo !!!
+-   create respective .env file on each machine: `SECRET_KEY="..."` 
 
 ## Logging
 
