@@ -4,14 +4,14 @@ import { getManager } from "typeorm";
 import { User } from "../entity/user.entity";
 import bcryptjs from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
-import { AuthMiddleware } from '../middleware/auth.middleware';
+// TODO - Refactor controller-endpoints
 
 
 export const Register = async (req: Request, res: Response) => {
-    // TODO - Refactor
 
+    /** Validate request and password */
     const body = req.body;
-    const { error } = RegisterValidation.validate(body);
+    const { error } = RegisterValidation.validate(body);                    // "express-validation" packages
 
     if (error) {
         return res.status(400).send(error.details);
@@ -23,14 +23,14 @@ export const Register = async (req: Request, res: Response) => {
         });
     }
 
-    const repository = getManager().getRepository(User);
+    /** Create user */
+    const repository = getManager().getRepository(User);                    // "typeorm" package
 
-    // create user
     const { password, ...user } = await repository.save({
         first_name: body.first_name,
         last_name: body.last_name,
         email: body.email,
-        password: await bcryptjs.hash(body.password, 10),
+        password: await bcryptjs.hash(body.password, 10),                   // "bcryptjs" package
     });
 
     res.send(user);
@@ -38,35 +38,35 @@ export const Register = async (req: Request, res: Response) => {
 
 
 export const Login = async (req: Request, res: Response) => {
-    // TODO - Refactor
-    //  - Refactor and create private sub-functions
 
     const repository = getManager().getRepository(User);
-    const { error } = LoginValidation.validate(req.body);
+
+
+    /** Validate request */
+    const { error } = LoginValidation.validate(req.body);                   // "express-validation" packages
 
     if (error) {
         return res.status(400).send(error.details);
     }
 
+
+    /** Check user and password */
     const user = await repository.findOne({ email: req.body.email });
 
-
-    // -----------------------------------------------------------------
-    // check user and password
     if (!user) {
         return res.status(404).send({
-            message: "User not found."      // better also user "Invalid credentials."!
+            // better also "Invalid credentials"
+            message: "User not found."
         });
     }
-    if (!await bcryptjs.compare(req.body.password, user.password)) {
+    if (!await bcryptjs.compare(req.body.password, user.password)) {        // "bcryptjs" package
         return res.status(400).send({
             message: "Invalid credentials."
         });
     }
 
 
-    // -----------------------------------------------------------------
-    // Generate & send JWT
+    /** Generate & send JWT */                                              // "jsonwebtoken" package
     const token = sign({ id: user.id }, process.env.SECRET_KEY as string)
 
     res.cookie('jwt', token, {
@@ -74,8 +74,8 @@ export const Login = async (req: Request, res: Response) => {
         maxAge: 24 * 60 * 60 * 1000,
     });
 
-    // -----------------------------------------------------------------
-    // Response
+
+    /** Send response */
     res.send({
         message: 'success',
     });
@@ -97,6 +97,6 @@ export const Logout = async (req: Request, res: Response) => {
     // remove cookie by setting it to be passed
     res.cookie('jwt', '', { maxAge: 0 })
 
-    res.send({ message: "SUccessfully signed out" })
+    res.send({ message: "Successfully signed out" })
 
 }

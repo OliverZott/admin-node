@@ -1,5 +1,4 @@
 # Run
-
 -   `npm install`
 -   start mysql server
 -   `npm start` ... to start nodemon
@@ -10,42 +9,43 @@
 - `npm install -g ts-node`
 - `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`ke
 
-# Debug
 
+
+---------------------------------------------------------------------------------------------------
+# Debug
 -   npm start first
 -   then debug console
+    OR
+- `ctrl + shift + P` --> `Toggle Auto Attach`
 
 # Setup
-
 ### First steps
-
 -   `npm init -y`
 -   `npm i -D typescript ts-node nodemon` and TS global `npm i -g typescript`
 -   `tsc --init`
 
 ### Configure nodemon
-
 -   create `nodemon.json` and add stuff
 
----
 
+
+---------------------------------------------------------------------------------------------------
 # Packages
-
 ## Express
-
 -   REST API framework
 -   `npm i express cors`
 -   Install respective **types** `npm i -D @types/express @types/cors`
 
-## Bcryptjs
+#### Further resources
+- [Middleware](https://expressjs.com/en/guide/writing-middleware.html)
 
+## Bcryptjs
 -   Encryption package
 -   `npm i bcryptjs`
 -   `npm i -D @types/bcrypt`
 
 ## TypeORM
 - https://typeorm.io/#/
-
 -   **Repository** and ORM package
     -   https://www.tutorialspoint.com/typeorm/typeorm_working_with_repository.htm
 
@@ -59,7 +59,6 @@
 -   validation library
 
 ## JWT
-
 -   json web token packages
 -   `npm i jsonwebtoken`
 -   `npm i -D @types/jsonwebtoken`
@@ -71,13 +70,11 @@
 -
 
 #### environment variables
-
 -   `npm i dotenv`
 -   https://www.npmjs.com/package/dotenv
 -   DONT KEEP .env file in repo !!!
 -   create respective .env file on each machine: `SECRET_KEY="..."` 
 
 ## Logging
-
 -   https://github.com/winstonjs/winston
 -
