@@ -7,6 +7,14 @@ import { sign, verify } from "jsonwebtoken";
 // TODO - Refactor controller-endpoints
 
 
+/**
+ * 
+ * API endpoints which can be used by an authenticated user.
+ * 
+ * @param req 
+ * @param res 
+ * @returns 
+ */
 export const Register = async (req: Request, res: Response) => {
 
     /** Validate request and password */
@@ -38,9 +46,7 @@ export const Register = async (req: Request, res: Response) => {
 
 
 export const Login = async (req: Request, res: Response) => {
-
     const repository = getManager().getRepository(User);
-
 
     /** Validate request */
     const { error } = LoginValidation.validate(req.body);                   // "express-validation" packages
@@ -83,7 +89,6 @@ export const Login = async (req: Request, res: Response) => {
 
 
 export const AuthenticatedUser = async (req: Request, res: Response) => {
-
     const user = req.body.user;
     res.send({
         user: user.first_name + ' ' + user.last_name,
@@ -96,7 +101,40 @@ export const Logout = async (req: Request, res: Response) => {
 
     // remove cookie by setting it to be passed
     res.cookie('jwt', '', { maxAge: 0 })
-
     res.send({ message: "Successfully signed out" })
+}
 
+
+export const UpdateInfo = async (req: Request, res: Response) => {
+    const { user, ...data } = req.body;
+    const repository = getManager().getRepository(User);
+
+
+    await repository.update(user.id, data)
+    const newUser = await repository.findOne(user.id);
+
+    res.send({
+        user: newUser!.first_name + ' ' + newUser!.last_name,
+        email: newUser!.email,
+    })
+
+}
+
+export const UpdatePassword = async (req: Request, res: Response) => {
+    const user: User = req.body.user;
+
+    if (req.body.password !== req.body.password_confirm) {
+        return res.status(400).send({
+            message: "Password confirmation must be the same."
+        });
+    }
+
+    const repository = getManager().getRepository(User);
+    await repository.update(user.id, {
+        password: await bcryptjs.hash(req.body.password, 10)
+    })
+
+    res.send({
+        message: "Password updated sucessfully"
+    })
 }
