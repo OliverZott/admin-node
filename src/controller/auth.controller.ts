@@ -120,6 +120,7 @@ export const UpdateInfo = async (req: Request, res: Response) => {
 
 }
 
+
 export const UpdatePassword = async (req: Request, res: Response) => {
     const user: User = req.body.user;
 
