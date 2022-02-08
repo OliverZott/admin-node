@@ -1,6 +1,5 @@
 {
     "configurations": [
-        
         {
             "name": "Launch via NPM",
             "request": "launch",

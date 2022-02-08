@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { AuthenticatedUser, Login, Logout, Register, UpdateInfo, UpdatePassword } from "./controller/auth.controller";
-import { CreateUser, Users } from "./controller/user.controller";
+import { CreateUser, DeleteUser, GetUser, UpdateUser, Users } from "./controller/user.controller";
 import { AuthMiddleware } from "./middleware/auth.middleware";
 
 
@@ -14,6 +14,9 @@ export const routes = (router: Router) => {
     router.put('/api/user/password', AuthMiddleware, UpdatePassword);
 
     /** Admin api-endpoints */
-    router.get('/api/users', AuthMiddleware, Users);
     router.post('/api/users', AuthMiddleware, CreateUser);
+    router.get('/api/users', AuthMiddleware, Users);
+    router.get('/api/users/:id', AuthMiddleware, GetUser);
+    router.put('/api/users/:id', AuthMiddleware, UpdateUser);
+    router.delete('/api/users/:id', AuthMiddleware, DeleteUser);
 }
