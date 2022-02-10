@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { getManager, Repository } from "typeorm"
 import { User } from "../entity/user.entity";
 import bcryptjs from "bcryptjs";
+import { Role } from '../entity/role.entity';
 
 /**
  * API endpoints which can be used by ADMIN and has access to various user.
@@ -17,7 +18,10 @@ export const CreateUser = async (req: Request, res: Response) => {
     try {
         const { password, ...newUser } = await repository.save({
             ...body,
-            password: hashedPassword
+            password: hashedPassword,
+            role: {
+                id: role_id
+            }
         })
         res.status(201).send(newUser);
     } catch (e) {
@@ -29,7 +33,7 @@ export const CreateUser = async (req: Request, res: Response) => {
 export const Users = async (req: Request, res: Response) => {
     const repository = getManager().getRepository(User);
 
-    const users = await repository.find();
+    const users = await repository.find({ relations: ['role'] });
 
     res.send(users.map(user => {
         const { password, ...data } = user;
@@ -41,7 +45,7 @@ export const Users = async (req: Request, res: Response) => {
 
 export const GetUser = async (req: Request, res: Response) => {
     const repository = getManager().getRepository(User);
-    const user = await repository.findOne(req.params.id);
+    const user = await repository.findOne(req.params.id, { relations: ['role'] });
 
     if (user) {
         const { password, ...userData } = user;
@@ -57,7 +61,12 @@ export const UpdateUser = async (req: Request, res: Response) => {
     const repository = getManager().getRepository(User);
 
     if (await userExists(repository, parseInt(req.params.id))) {
-        const updateResult = await repository.update(req.params.id, body);
+        await repository.update(req.params.id, {
+            ...body,
+            role: {
+                id: role_id,
+            }
+        });
         res.send("User updated")
     } else {
         res.status(202).send(`No user with id=${req.params.id} found!`)
