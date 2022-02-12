@@ -3,6 +3,7 @@
 -   start mysql server
 -   `npm start` ... to start nodemon
 -   http://localhost:8000/
+-   Seeing Database: `npm run roles:seed`
 
 ### In case of errors:
 - `npm install -g nodemon`
@@ -26,6 +27,23 @@
 
 ### Configure nodemon
 -   create `nodemon.json` and add stuff
+
+
+
+---------------------------------------------------------------------------------------------------
+# SQL stuff
+### SQLite
+- Delete all rows and ignore Foreign Keys
+    > PRAGMA foreign_keys = OFF;    
+    > DELETE FROM table_name;    
+    > PRAGMA foreign_keys = ON;     
+
+### MySql
+- Delete all rows and ignore Foreign Keys
+    > SET FOREIGN_KEY_CHECKS = 0;    
+    > truncate table table_name;     
+    > SET FOREIGN_KEY_CHECKS = 1;    
+
 
 
 

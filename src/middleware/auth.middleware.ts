@@ -3,7 +3,7 @@ import { verify } from "jsonwebtoken";
 import { getManager } from 'typeorm';
 import { User } from '../entity/user.entity';
 
-
+/** Used so we can work with JWT only */
 export const AuthMiddleware = async (req: Request, res: Response, next: Function) => {
 
     try {
