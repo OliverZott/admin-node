@@ -14,8 +14,7 @@
 
 ---------------------------------------------------------------------------------------------------
 # Debug
--   npm start first
--   then debug console
+-   NO npm start, just `F5`
     OR
 - `ctrl + shift + P` --> `Toggle Auto Attach`
 

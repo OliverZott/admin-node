@@ -89,11 +89,8 @@ export const Login = async (req: Request, res: Response) => {
 
 
 export const AuthenticatedUser = async (req: Request, res: Response) => {
-    const user = req.body.user;
-    res.send({
-        user: user.first_name + ' ' + user.last_name,
-        email: user.email,
-    });
+    const {password, ...user} = req.body.user;
+    res.send(user);
 }
 
 
