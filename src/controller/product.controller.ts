@@ -4,10 +4,24 @@ import { Product } from '../entity/product.entity';
 
 
 export const Products = async (req: Request, res: Response) => {
-    const repository = getManager().getRepository(Product);
-    const products = await repository.find();
+    const take = 15;
+    const page = parseInt(req.query.page as string || "1");
 
-    res.send(products);
+
+    const repository = getManager().getRepository(Product);
+    const [products, total] = await repository.findAndCount({
+        skip: (page - 1) * take,
+        take: take,
+    });
+
+    res.send({
+        data: products,
+        meta: {
+            total: total,
+            page,
+            last_page: Math.ceil(total / take),
+        }
+    });
 }
 
 

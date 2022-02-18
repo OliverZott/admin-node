@@ -29,17 +29,30 @@ export const CreateUser = async (req: Request, res: Response) => {
     }
 }
 
-
 export const Users = async (req: Request, res: Response) => {
+    const take = 2;
+    const page = parseInt(req.query.page as string || "1");
+
     const repository = getManager().getRepository(User);
 
-    const users = await repository.find({ relations: ['role'] });
+    const [users, total] = await repository.findAndCount({
+        take: take,
+        skip: (page - 1) * take,
+        relations: ['role']
+    });
 
-    res.send(users.map(user => {
-        const { password, ...data } = user;
-        return data;
-    }));
 
+    res.send({
+        data: users.map(user => {
+            const { password, ...data } = user;
+            return data;
+        }),
+        meta: {
+            total: total,
+            currentPage: page,
+            lastPage: Math.ceil(total / take),
+        }
+    })
 }
 
 
