@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { verify } from "jsonwebtoken";
 import { getManager } from 'typeorm';
+import { dataSource } from '../data-source';
 import { User } from '../entity/user.entity';
 
 /** Used so we can work with JWT only */
@@ -17,8 +18,8 @@ export const AuthMiddleware = async (req: Request, res: Response, next: Function
         }
 
         /** Add user to request body (body was empty before) */
-        const repository = getManager().getRepository(User);
-        req.body.user = await repository.findOne(payload.id);
+        const repository = dataSource.getRepository(User);
+        req.body.user = await repository.findOneBy({ id: payload.id });
         next();
     }
     catch (e) {

@@ -5,6 +5,7 @@ import { routes } from "./routes";
 import { createConnection } from "typeorm";
 import cookieParser from "cookie-parser";
 import DatabaseVsalidation from "./utils/db.validation"
+import { dataSource } from "./data-source";
 
 let databaseValidation = new DatabaseVsalidation();
 databaseValidation.validateFileDatabase();
@@ -12,7 +13,10 @@ databaseValidation.validateMemoryDatabase();
 
 
 // will read config from "ormconfig.json" automatically!!!
-createConnection().then(connection => {
+
+
+// load entities, establish db connection, sync schema, etc.
+dataSource.connect().then(connection => {
 
     const app = express();
 

@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { LoginValidation, RegisterValidation } from "../validation/register.validation";
-import { getManager } from "typeorm";
 import { User } from "../entity/user.entity";
 import bcryptjs from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
+import { dataSource } from '../data-source';
 // TODO - Refactor controller-endpoints
+
 
 
 /**
@@ -32,7 +33,7 @@ export const Register = async (req: Request, res: Response) => {
     }
 
     /** Create user */
-    const repository = getManager().getRepository(User);                    // "typeorm" package
+    const repository = dataSource.getRepository(User);                    // "typeorm" package
 
     const { password, ...user } = await repository.save({
         first_name: body.first_name,
@@ -46,7 +47,7 @@ export const Register = async (req: Request, res: Response) => {
 
 
 export const Login = async (req: Request, res: Response) => {
-    const repository = getManager().getRepository(User);
+    const repository = dataSource.getRepository(User);
 
     /** Validate request */
     const { error } = LoginValidation.validate(req.body);                   // "express-validation" packages
@@ -57,7 +58,7 @@ export const Login = async (req: Request, res: Response) => {
 
 
     /** Check user and password */
-    const user = await repository.findOne({ email: req.body.email });
+    const user = await repository.findOne({ where: { email: req.body.email } });
 
     if (!user) {
         return res.status(404).send({
@@ -89,7 +90,7 @@ export const Login = async (req: Request, res: Response) => {
 
 
 export const AuthenticatedUser = async (req: Request, res: Response) => {
-    const {password, ...user} = req.body.user;
+    const { password, ...user } = req.body.user;
     res.send(user);
 }
 
@@ -104,7 +105,7 @@ export const Logout = async (req: Request, res: Response) => {
 
 export const UpdateInfo = async (req: Request, res: Response) => {
     const { user, ...data } = req.body;
-    const repository = getManager().getRepository(User);
+    const repository = dataSource.getRepository(User);
 
 
     await repository.update(user.id, data)
@@ -127,7 +128,7 @@ export const UpdatePassword = async (req: Request, res: Response) => {
         });
     }
 
-    const repository = getManager().getRepository(User);
+    const repository = dataSource.getRepository(User);
     await repository.update(user.id, {
         password: await bcryptjs.hash(req.body.password, 10)
     })

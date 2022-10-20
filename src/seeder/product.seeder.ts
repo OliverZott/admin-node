@@ -5,7 +5,7 @@ import { Product } from "../entity/product.entity";
 
 createConnection().then(async connection => {
     console.log("Seeding products to the database.")
-    const repository = getManager().getRepository(Product);
+    const repository = dataSource.getRepository(Product);
 
     const maxPrice = 50;
     const minPrice = 1;

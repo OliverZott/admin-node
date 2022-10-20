@@ -1,26 +1,29 @@
 import { Request, Response } from 'express';
-import { getManager } from 'typeorm';
-import { Permission } from '../entity/permission.entity';
+import { dataSource } from '../data-source';
 import { Role } from '../entity/role.entity';
 
 
 export const GetRoles = async (req: Request, res: Response) => {
-    const repository = getManager().getRepository(Role);
+    const repository = dataSource.getRepository(Role);
 
     res.send(await repository.find());
 }
 
 
 export const GetRole = async (req: Request, res: Response) => {
-    const repository = getManager().getRepository(Role);
-    const role = await repository.findOne(req.params.id, { relations: ['permissions'] })
+    const repository = dataSource.getRepository(Role);
+    // const role = await repository.findOne(req.params.id, { relations: ['permissions'] })
+    const role = await repository.findOne({
+        where: { id: parseInt(req.params.id) },
+        relations: { permissions: true },
+    })
 
     res.send(role);
 }
 
 
 export const CreateRole = async (req: Request, res: Response) => {
-    const repository = getManager().getRepository(Role);
+    const repository = dataSource.getRepository(Role);
     const { name, permissions }: { name: string, permissions: number[] } = req.body;
 
     const role = await repository.save({
@@ -36,7 +39,7 @@ export const CreateRole = async (req: Request, res: Response) => {
 
 // Update is same as CREATE but with passed ID
 export const UpdateRole = async (req: Request, res: Response) => {
-    const repository = getManager().getRepository(Role);
+    const repository = dataSource.getRepository(Role);
     const { name, permissions }: { name: string, permissions: number[] } = req.body;
 
     const role = await repository.save({
@@ -52,7 +55,7 @@ export const UpdateRole = async (req: Request, res: Response) => {
 
 
 export const DeleteRole = async (req: Request, res: Response) => {
-    const repository = getManager().getRepository(Role);
+    const repository = dataSource.getRepository(Role);
 
     await repository.delete(req.params.id);
 
