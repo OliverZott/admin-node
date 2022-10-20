@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "a3fdbf95-050c-4b89-babf-7a7761eed61a",
+		"name": "Examples",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12222368"
+	},
+	"item": [
+		{
+			"name": "Example1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000",
+					"host": [
+						"localhost"
+					],
+					"port": "8000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Example2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/register2",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"register2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
