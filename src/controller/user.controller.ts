@@ -30,7 +30,7 @@ export const CreateUser = async (req: Request, res: Response) => {
 }
 
 export const Users = async (req: Request, res: Response) => {
-    const take = 2;
+    const take = 4;
     const page = parseInt(req.query.page as string || "1");
 
     const repository = getManager().getRepository(User);
