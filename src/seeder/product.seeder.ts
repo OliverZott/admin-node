@@ -1,9 +1,9 @@
 
-import { createConnection, getManager } from "typeorm";
+import { dataSource } from "../data-source";
 import { Product } from "../entity/product.entity";
 
 
-createConnection().then(async connection => {
+export async function seed() {
     console.log("Seeding products to the database.")
     const repository = dataSource.getRepository(Product);
 
@@ -21,4 +21,4 @@ createConnection().then(async connection => {
 
 
     process.exit(0);
-});
+}
