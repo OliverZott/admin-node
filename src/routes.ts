@@ -1,5 +1,6 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import { AuthenticatedUser, Login, Logout, Register, UpdateInfo, UpdatePassword } from "./controller/auth.controller";
+import { Upload } from "./controller/image.controller";
 import { GetPermissions } from "./controller/permission.controller";
 import { CreateProduct, DeleteProduct, GetProduct, Products, UpdateProduct } from "./controller/product.controller";
 import { CreateRole, DeleteRole, GetRole, GetRoles, UpdateRole } from "./controller/role.controller";
@@ -35,4 +36,7 @@ export const routes = (router: Router) => {
     router.post('/api/products', AuthMiddleware, CreateProduct)
     router.put('/api/products/:id', AuthMiddleware, UpdateProduct)
     router.delete('/api/products/:id', AuthMiddleware, DeleteProduct)
+
+    router.post('/api/upload', AuthMiddleware, Upload);
+    router.use('/api/uploads', express.static('./uploads'));  // make folder static (public) to get images
 }

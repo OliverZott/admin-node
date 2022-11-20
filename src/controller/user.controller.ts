@@ -29,6 +29,7 @@ export const CreateUser = async (req: Request, res: Response) => {
     }
 }
 
+
 export const Users = async (req: Request, res: Response) => {
     const take = 4;
     const page = parseInt(req.query.page as string || "1");
@@ -40,7 +41,6 @@ export const Users = async (req: Request, res: Response) => {
         skip: (page - 1) * take,
         relations: ['role']
     });
-
 
     res.send({
         data: users.map(user => {

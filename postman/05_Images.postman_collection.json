@@ -1,0 +1,72 @@
+{
+	"info": {
+		"_postman_id": "a91536d0-9761-49a0-ba6c-d52e5215692d",
+		"name": "05_Images",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12222368"
+	},
+	"item": [
+		{
+			"name": "Upload Image to local storage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/das_m/OneDrive/Desktop/shark.jpeg"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/upload",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Images",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/C:/Users/das_m/OneDrive/Desktop/shark.jpeg"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8000/api/uploads/5d75d86i1i.jpeg",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"uploads",
+						"5d75d86i1i.jpeg"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

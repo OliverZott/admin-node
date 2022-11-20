@@ -103,6 +103,13 @@
 - DONT KEEP .env file in repo !!!
 - create respective .env file on each machine: `SECRET_KEY="..."`
 
+## File Upload - Multer
+
+- `npm i multer`
+- `npm i -D @types/multer`
+
+# TODO
+
 ## Logging
 
 - <https://github.com/winstonjs/winston>
