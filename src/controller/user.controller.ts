@@ -49,8 +49,8 @@ export const Users = async (req: Request, res: Response) => {
         }),
         meta: {
             total: total,
-            currentPage: page,
-            lastPage: Math.ceil(total / take),
+            current_page: page,
+            last_page: Math.ceil(total / take),
         }
     })
 }
@@ -76,16 +76,20 @@ export const UpdateUser = async (req: Request, res: Response) => {
     const { role_id, user, ...body } = req.body;
     const repository = dataSource.getRepository(User);
 
-    if (await userExists(repository, parseInt(req.params.id))) {
-        await repository.update(req.params.id, {
-            ...body,
-            role: {
-                id: role_id,
-            }
-        });
-        res.send("User updated")
-    } else {
-        res.status(202).send(`No user with id=${req.params.id} found!`)
+    try {
+        if (await userExists(repository, parseInt(req.params.id))) {
+            await repository.update(req.params.id, {
+                ...body,
+                role: {
+                    id: role_id,
+                }
+            });
+            res.send("User updated")
+        } else {
+            res.status(202).send(`No user with id=${req.params.id} found!`)
+        }
+    } catch (e) {
+        res.send(e)
     }
 }
 

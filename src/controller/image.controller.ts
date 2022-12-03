@@ -21,7 +21,7 @@ export const Upload = async (req: Request, res: Response) => {
             res.send(400).send(err);
         }
         res.send({
-            url: `http://localhost:8000/api/upload/${req.file?.filename}`,
+            url: `http://localhost:8000/api/uploads/${req.file?.filename}`,
         })
     })
 

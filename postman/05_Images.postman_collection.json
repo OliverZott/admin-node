@@ -8,6 +8,22 @@
 	"item": [
 		{
 			"name": "Upload Image to local storage",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful User Login\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.collectionVariables.set(\"imageUrl\", jsonData.url)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -17,7 +33,7 @@
 						{
 							"key": "image",
 							"type": "file",
-							"src": "/C:/Users/das_m/OneDrive/Desktop/shark.jpeg"
+							"src": "/C:/Users/das_m/OneDrive/Desktop/shark3.jpg"
 						}
 					]
 				},
@@ -54,19 +70,19 @@
 					]
 				},
 				"url": {
-					"raw": "localhost:8000/api/uploads/5d75d86i1i.jpeg",
+					"raw": "{{imageUrl}}",
 					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"uploads",
-						"5d75d86i1i.jpeg"
+						"{{imageUrl}}"
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "imageUrl",
+			"value": ""
 		}
 	]
 }

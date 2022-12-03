@@ -18,7 +18,7 @@
 
 - NO npm start, just `F5`
     OR
-- `ctrl + shift + P` --> `Toggle Auto Attach`
+- `ctrl + shift + p` -> Debug: Toggle Auto Attach Always + `npm start`
 
 # Setup
 
