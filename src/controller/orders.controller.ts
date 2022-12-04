@@ -1,5 +1,7 @@
 import { Request, Response } from "express"
+import { Parser } from "json2csv";
 import { dataSource } from "../data-source";
+import { OrderItem } from "../entity/order-item.entity";
 import { Order } from "../entity/order.entity";
 
 
@@ -53,3 +55,57 @@ export async function GetOrder(req: Request, res: Response) {
     res.send(order)
 }
 
+
+export async function Export(req: Request, res: Response) {
+
+    const parser = new Parser({
+        fields: ['ID', 'Name', 'Email', 'Product Title', 'Price', 'Quantity']
+    });
+
+
+    const orders = await orderRepository.find({
+        relations: { order_items: true }
+    });
+
+    let json: any[] = [];
+
+    orders.forEach((order: Order) => {
+        json.push({
+            ID: order.id,
+            Name: order.name,
+            Email: order.email,
+            'Product Title': '',
+            Price: '',
+            Quantity: ''
+        });
+
+        order.order_items.forEach((orderItem: OrderItem) => {
+            json.push({
+                ID: '',
+                Name: '',
+                Email: '',
+                'Product Title': orderItem.product_title,
+                Price: orderItem.price,
+                Quantity: orderItem.quantity
+            });
+        });
+    });
+
+    const csv = parser.parse(json);
+
+    res.header('Content-Type', 'text/csv');
+    res.attachment('orders.csv');
+    res.send(csv);
+}
+
+
+export async function Chart(req: Request, res: Response) {
+    const result = await dataSource.query(`
+    SELECT STRFTIME('%Y-%m-%d', o.created_at) as date, SUM(oi.price * oi.quantity) as sum
+    FROM \'order\'  o 
+    JOIN order_item oi on o.id = oi.order_id
+    GROUP BY date;
+    `)
+
+    res.send(result);
+}

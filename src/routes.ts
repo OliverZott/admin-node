@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 import { AuthenticatedUser, Login, Logout, Register, UpdateInfo, UpdatePassword } from "./controller/auth.controller";
 import { Upload } from "./controller/image.controller";
-import { GetAllOrders, GetOrder } from "./controller/orders.controller";
+import { Chart, Export, GetAllOrders, GetOrder } from "./controller/orders.controller";
 import { GetPermissions } from "./controller/permission.controller";
 import { CreateProduct, DeleteProduct, GetProduct, Products, UpdateProduct } from "./controller/product.controller";
 import { CreateRole, DeleteRole, GetRole, GetRoles, UpdateRole } from "./controller/role.controller";
@@ -40,10 +40,11 @@ export const routes = (router: Router) => {
 
     router.get('/api/orders', AuthMiddleware, GetAllOrders)
     router.get('/api/orders/:id', AuthMiddleware, GetOrder)
-    router.post('/api/orders/:id', AuthMiddleware, GetOrder)
-    router.put('/api/orders/:id', AuthMiddleware, GetOrder)
-    router.delete('/api/orders/:id', AuthMiddleware, GetOrder)
 
     router.post('/api/upload', AuthMiddleware, Upload);
     router.use('/api/uploads', express.static('./uploads'));  // make folder static (public) to get images
+
+    router.post('/api/export', AuthMiddleware, Export)
+
+    router.get('/api/chart', AuthMiddleware, Chart)
 }
