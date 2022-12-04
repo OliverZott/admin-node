@@ -45,6 +45,26 @@
 			"response": []
 		},
 		{
+			"name": "Get Role",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/roles/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"roles",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create Role",
 			"request": {
 				"method": "POST",
@@ -86,26 +106,6 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "localhost:8000/api/roles/5",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"roles",
-						"5"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Role",
-			"request": {
-				"method": "GET",
-				"header": [],
 				"url": {
 					"raw": "localhost:8000/api/roles/5",
 					"host": [

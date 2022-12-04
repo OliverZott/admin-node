@@ -12,7 +12,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8000/api/products?page=2",
+					"raw": "localhost:8000/api/products?page=1",
 					"host": [
 						"localhost"
 					],
@@ -24,7 +24,7 @@
 					"query": [
 						{
 							"key": "page",
-							"value": "2"
+							"value": "1"
 						}
 					]
 				}
