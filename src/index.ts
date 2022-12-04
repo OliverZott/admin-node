@@ -4,10 +4,10 @@ import cors from "cors";
 import { routes } from "./routes";
 import { createConnection } from "typeorm";
 import cookieParser from "cookie-parser";
-import DatabaseVsalidation from "./utils/db.validation"
+import DatabaseValidation from "./utils/db.validation"
 import { dataSource } from "./data-source";
 
-let databaseValidation = new DatabaseVsalidation();
+let databaseValidation = new DatabaseValidation();
 databaseValidation.validateFileDatabase();
 databaseValidation.validateMemoryDatabase();
 
