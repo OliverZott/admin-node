@@ -60,7 +60,11 @@ export const GetUser = async (req: Request, res: Response) => {
     const repository = dataSource.getRepository(User);
     const user = await repository.findOne({
         where: { id: parseInt(req.params.id) },
-        relations: { role: true },
+        relations: {
+            role: {
+                permissions: true
+            }
+        },
     })
 
     if (user) {

@@ -19,7 +19,15 @@ export const AuthMiddleware = async (req: Request, res: Response, next: Function
 
         /** Add user to request body (body was empty before) */
         const repository = dataSource.getRepository(User);
-        req.body.user = await repository.findOneBy({ id: payload.id });
+        req.body.user = await repository.findOne({
+            where: { id: payload.id },
+            relations: {
+                role: {
+                    permissions: true,          // relations of relations
+                }
+
+            }
+        });
         next();
     }
     catch (e) {

@@ -7,6 +7,7 @@ import { CreateProduct, DeleteProduct, GetProduct, Products, UpdateProduct } fro
 import { CreateRole, DeleteRole, GetRole, GetRoles, UpdateRole } from "./controller/role.controller";
 import { CreateUser, DeleteUser, GetUser, UpdateUser, Users } from "./controller/user.controller";
 import { AuthMiddleware } from "./middleware/auth.middleware";
+import PermissionMiddleware from "./middleware/permission.middleware";
 
 
 export const routes = (router: Router) => {
@@ -32,11 +33,11 @@ export const routes = (router: Router) => {
     router.put('/api/roles/:id', AuthMiddleware, UpdateRole)
     router.delete('/api/roles/:id', AuthMiddleware, DeleteRole)
 
-    router.get('/api/products', AuthMiddleware, Products)
+    router.get('/api/products', AuthMiddleware, PermissionMiddleware('products'), Products)
     router.get('/api/products/:id', AuthMiddleware, GetProduct)
     router.post('/api/products', AuthMiddleware, CreateProduct)
-    router.put('/api/products/:id', AuthMiddleware, UpdateProduct)
-    router.delete('/api/products/:id', AuthMiddleware, DeleteProduct)
+    router.put('/api/products/:id', AuthMiddleware, PermissionMiddleware('products'), UpdateProduct)
+    router.delete('/api/products/:id', AuthMiddleware, PermissionMiddleware('products'), DeleteProduct)
 
     router.get('/api/orders', AuthMiddleware, GetAllOrders)
     router.get('/api/orders/:id', AuthMiddleware, GetOrder)
