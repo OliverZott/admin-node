@@ -109,11 +109,15 @@ export const UpdateInfo = async (req: Request, res: Response) => {
 
 
     await repository.update(user.id, data)
-    const newUser = await repository.findOne(user.id);
+    const updatedUser = await repository.findOne({
+        where: { id: parseInt(user.id) }
+    });
 
     res.send({
-        user: newUser!.first_name + ' ' + newUser!.last_name,
-        email: newUser!.email,
+        // user: updatedUser!.first_name + ' ' + updatedUser!.last_name,
+        first_name: updatedUser!.first_name,
+        last_name: updatedUser!.last_name,
+        email: updatedUser!.email,
     })
 
 }
