@@ -1,7 +1,6 @@
 require('dotenv').config();
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { createConnection } from "typeorm";
 import cookieParser from "cookie-parser";
 import DatabaseValidation from "./utils/db.validation"
 import { dataSource } from "./data-source";
@@ -11,9 +10,7 @@ databaseValidation.validateFileDatabase();
 databaseValidation.validateMemoryDatabase();
 
 
-// will read config from "ormconfig.json" automatically!!!
-
-
+// Read db config either from "ormconfig.json" or  "data-source.ts"
 // load entities, establish db connection, sync schema, etc.
 dataSource.initialize().then(connection => {
 
@@ -37,7 +34,7 @@ dataSource.initialize().then(connection => {
     app.get('/', (req, res) => {
         res.send("Hello World =)");
     });
-    // EXAMPLE 2: "routes(app);"  is the same as:
+    // EXAMPLE 2: same as "routes(app);"
     app.post('/api/register2', (req: Request, res: Response) => {
         res.send("Test two!");
     })

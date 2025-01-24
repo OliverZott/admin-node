@@ -1,9 +1,0 @@
-{
-  "type": "sqlite",
-  "database": "src/data/node_admin.db",
-  "entities": [
-    "src/entity/*.ts"
-  ],
-  "logging": false,
-  "synchronize": false
-}
