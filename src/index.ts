@@ -20,7 +20,7 @@ dataSource.initialize().then(connection => {
     app.use(cookieParser());    // to be able to retrieve cookies from api
     app.use(cors({      // app runs on port 8000 but all frontend run on different ports!
         credentials: true,      // so frontend gets cookies
-        origin: ["http://localhost:3000"]
+        origin: 'http://localhost:3000',
     }));
 
     app.use('/api', router);
