@@ -1,7 +1,16 @@
-# Run
+# Node Backend example
+
+# Run and Debug app
+
+## Prerequisites
+
+- create .env file with `SECRET_KEY="..."` in root directory
+- create ormconfig.json file with db connection details (including db password) in root directory
+
+## Run app
 
 - `npm install`
-- start mysql server
+- (start mysql server) --> changed to sqlite
 - `npm start` ... to start nodemon
 - <http://localhost:8000/>
 - Seeing Database: `npm run roles:seed`
@@ -12,9 +21,7 @@
 - `npm install -g ts-node`
 - `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`ke
 
----------------------------------------------------------------------------------------------------
-
-# Debug
+## Debug app
 
 - NO npm start, just `F5`
     OR
@@ -31,24 +38,6 @@
 ## Configure nodemon
 
 - create `nodemon.json` and add stuff
-
----------------------------------------------------------------------------------------------------
-
-# SQL stuff
-
-## SQLite
-
-- Delete all rows and ignore Foreign Keys
-    > PRAGMA foreign_keys = OFF;
-    > DELETE FROM table_name;
-    > PRAGMA foreign_keys = ON;
-
-## MySql
-
-- Delete all rows and ignore Foreign Keys
-    > SET FOREIGN_KEY_CHECKS = 0;
-    > truncate table table_name;
-    > SET FOREIGN_KEY_CHECKS = 1;
 
 ---------------------------------------------------------------------------------------------------
 
@@ -115,7 +104,31 @@
 
 # TODO
 
+## Deployment
+
+- try [redner.com](https://dashboard.render.com/)
+
 ## Logging
 
 - <https://github.com/winstonjs/winston>
 -
+
+---------------------------------------------------------------------------------------------------
+
+# SQL stuff
+
+## SQLite
+
+- Delete all rows and ignore Foreign Keys
+    > PRAGMA foreign_keys = OFF;
+    > DELETE FROM table_name;
+    > PRAGMA foreign_keys = ON;
+
+## MySql
+
+- Delete all rows and ignore Foreign Keys
+    > SET FOREIGN_KEY_CHECKS = 0;
+    > truncate table table_name;
+    > SET FOREIGN_KEY_CHECKS = 1;
+
+---------------------------------------------------------------------------------------------------
