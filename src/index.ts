@@ -1,12 +1,11 @@
 require('dotenv').config();
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { routes } from "./routes";
 import { createConnection } from "typeorm";
 import cookieParser from "cookie-parser";
 import DatabaseValidation from "./utils/db.validation"
 import { dataSource } from "./data-source";
-
+import router from './routes';
 let databaseValidation = new DatabaseValidation();
 databaseValidation.validateFileDatabase();
 databaseValidation.validateMemoryDatabase();
@@ -16,7 +15,7 @@ databaseValidation.validateMemoryDatabase();
 
 
 // load entities, establish db connection, sync schema, etc.
-dataSource.connect().then(connection => {
+dataSource.initialize().then(connection => {
 
     const app = express();
 
@@ -27,7 +26,7 @@ dataSource.connect().then(connection => {
         origin: ["http://localhost:3000"]
     }));
 
-    routes(app);
+    app.use('/api', router);
 
     app.listen(process.env.PORT as unknown as number || 8000, () => {
         console.log("Listening to port 8000");

@@ -5,14 +5,14 @@ import { dataSource } from '../data-source';
 import { User } from '../entity/user.entity';
 
 /** Used so we can work with JWT only */
-export const AuthMiddleware = async (req: Request, res: Response, next: Function) => {
+export const AuthMiddleware = async (req: Request, res: Response, next: Function): Promise<void> => {
 
     try {
         /** Validate token in cookie */
         const jwt = req.cookies['jwt'];
         const payload: any = verify(jwt, process.env.SECRET_KEY as string);         // "jsonwebtoken" package
         if (!payload) {
-            return res.status(401).send({
+            res.status(401).send({
                 message: 'Not authenticated!'
             });
         }
@@ -31,7 +31,7 @@ export const AuthMiddleware = async (req: Request, res: Response, next: Function
         next();
     }
     catch (e) {
-        return res.status(401).send({
+        res.status(401).send({
             message: 'Not authenticated!'
         });
     }
