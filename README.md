@@ -23,7 +23,7 @@
 
 ## Debug app
 
-- NO npm start, just `F5`
+- NO npm start, just `F5` (using `Launch via NPM` launch.json configuration)
     OR
 - `ctrl + shift + p` -> Debug: Toggle Auto Attach Always + `npm start`
 
