@@ -4,7 +4,7 @@ import { Permission } from "../entity/permission.entity";
 import { Role } from "../entity/role.entity";
 
 
-createConnection().then(async connection => {
+dataSource.initialize().then(async () => {
     console.log("Seeding user role-permission to the database.")
 
     const perms_all = ['view_users', 'edit_users', 'view_roles', 'edit_roles', 'view_products', 'edit_products', 'view_orders', 'edit_orders',];
