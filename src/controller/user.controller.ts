@@ -59,7 +59,7 @@ export const Users = async (req: Request, res: Response) => {
 export const GetUser = async (req: Request, res: Response) => {
     const repository = dataSource.getRepository(User);
     const user = await repository.findOne({
-        where: { id: parseInt(req.params.id) },
+        where: { id: parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id) },
         relations: {
             role: {
                 permissions: true
@@ -81,7 +81,7 @@ export const UpdateUser = async (req: Request, res: Response) => {
     const repository = dataSource.getRepository(User);
 
     try {
-        if (await userExists(repository, parseInt(req.params.id))) {
+        if (await userExists(repository, parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id))) {
             await repository.update(req.params.id, {
                 ...body,
                 role: {

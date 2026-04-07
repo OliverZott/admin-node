@@ -48,7 +48,7 @@ export async function GetAllOrders(req: Request, res: Response) {
 
 export async function GetOrder(req: Request, res: Response) {
     const order = await orderRepository.findOne({
-        where: { id: parseInt(req.params.id) },
+        where: { id: parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id) },
         relations: { order_items: true }
     })
 

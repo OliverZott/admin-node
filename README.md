@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-- create .env file with `SECRET_KEY="..."` in root directory
+- create .env file with `SECRET_KEY` in root directory
 - create ormconfig.json file with db connection details (including db password) in root directory
 
 ## Run app

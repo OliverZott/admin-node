@@ -29,7 +29,7 @@ export const Products = async (req: Request, res: Response) => {
 export const GetProduct = async (req: Request, res: Response) => {
     const repository = dataSource.getRepository(Product);
     // const product = await repository.findOne(req.params.id);
-    const product = await repository.findOneBy({ id: parseInt(req.params.id) });
+    const product = await repository.findOneBy({ id: parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id) });
 
     res.send(product ? product : `No product with id=${req.params.id}`);
 }

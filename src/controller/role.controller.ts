@@ -14,7 +14,7 @@ export const GetRole = async (req: Request, res: Response) => {
     const repository = dataSource.getRepository(Role);
     // const role = await repository.findOne(req.params.id, { relations: ['permissions'] })
     const role = await repository.findOne({
-        where: { id: parseInt(req.params.id) },
+        where: { id: parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id) },
         relations: { permissions: true },
     })
 
@@ -43,7 +43,7 @@ export const UpdateRole = async (req: Request, res: Response) => {
     const { name, permissions }: { name: string, permissions: number[] } = req.body;
 
     const role = await repository.save({
-        id: parseInt(req.params.id),
+        id: parseInt(Array.isArray(req.params.id) ? req.params.id[0] : req.params.id),
         name: name,
         permissions: permissions.map(id => {
             return { id: id }
