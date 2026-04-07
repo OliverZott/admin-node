@@ -14,6 +14,7 @@ export const dataSource = new DataSource({
     entities: [User, Role, Permission, Product, Order, OrderItem],
     subscribers: [],
     migrations: [],
+    enableWAL: true,
 })
 
 

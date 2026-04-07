@@ -18,9 +18,17 @@ dataSource.initialize().then(connection => {
 
     app.use(express.json());    // to handle request as JSON
     app.use(cookieParser());    // to be able to retrieve cookies from api
-    app.use(cors({      // app runs on port 8000 but all frontend run on different ports!
-        credentials: true,      // so frontend gets cookies
-        origin: 'http://localhost:3000',
+
+    const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:4200'];
+    app.use(cors({
+        credentials: true,
+        origin: function (origin, callback) {
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, origin);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
     }));
 
     app.use('/api', router);
